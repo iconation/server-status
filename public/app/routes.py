@@ -1,0 +1,16 @@
+from flask import render_template
+from app import app
+from app import constants
+
+from app.models import server_status as model
+from app.views import server_status as view
+
+@app.route('/')
+@app.route('/index')
+def index():
+
+    servers = []
+    servers.append (view.status (model.status ("http://iconation.team:9100"), "ICONation Mainnet Citizen Node"))
+    servers.append (view.status (model.status ("http://iconation.team:9000"), "ICONation Testnet Citizen Node"))
+
+    return render_template ('index.html', constants=constants, servers=servers)

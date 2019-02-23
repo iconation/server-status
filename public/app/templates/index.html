@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block title %}{% endblock %}
+
+{% block content %}
+
+    <script>
+        function requestChannelStatus (channelId, url)
+        {
+            var payload = `
+                { 
+                    "jsonrpc" : "2.0",
+                    "id" : 2,
+                    "method" : "node_GetChannelInfos",
+                    "params" : {"message" : {}}
+                }
+            `;
+
+            $.ajax ({
+                type : "POST",
+                url : url + "/api/node",
+                dataType : 'json',
+                data : payload,
+
+                success : function (request) {
+                    var channelInfo = request['result']['channel_infos'];
+                    var channelName = Object.keys(channelInfo)[0]; //
+                    var channel = channelInfo[channelName];
+                    var scorePackage = channel['score_package']; //
+                    var peersCount = channel['peers'].length; //
+                    var peers = []
+                    for (peerIdx in channel['peers']) {
+                        peers.push (channel['peers'][peerIdx]['peer_target'])
+                    }
+                    
+                    $("#channel_id_" + channelId).replaceWith(channelName)
+                    $("#channel_name_" + channelId).replaceWith(scorePackage)
+                    $("#channel_peers_count_" + channelId).replaceWith(peersCount)
+                    $("#channel_peers_endpoint_" + channelId).replaceWith(peers.join('<br/>'))
+                },
+
+                error : function (error) {
+                    console.log (error);
+                    var errmsg = "<font color='red'><b>Error</b></font>"
+                    $("#channel_id_" + channelId).replaceWith(errmsg)
+                    $("#channel_name_" + channelId).replaceWith(errmsg)
+                    $("#channel_peers_count_" + channelId).replaceWith(errmsg)
+                    $("#channel_peers_endpoint_" + channelId).replaceWith(errmsg)
+                }
+            });
+        }
+    </script>
+
+    <h1>ICONation Citizen Nodes status</h1>
+
+    <table cellspacing='0'>
+        <thead>
+            <tr>
+                <th>Network Name</th>
+                <th>Network URL Endpoint</th>
+                <th>Online Status</th>
+                <th>State</th>
+                <th>Consensus</th>
+                <th>Block Height</th>
+                <th>Total Transactions</th>
+                <th>Unconfirmed Transactions</th>
+                <th>Channel ID</th>
+                <th>SCORE Package</th>
+                <th>Peers Count</th>
+                <th>Peers Endpoint</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for server in servers %}
+            <tr>
+                <td>{{server.name}}</td>
+                <td><a href="{{server.url}}/api/v1/status/peer/">{{server.url}}</a></td>
+                {% if server.online == true %}
+                    <td><font color="green"><b>Online</b></font></td>
+                {% else %}
+                    <td><font color="red"><b>Offline : {{server.reason}}</b></font></td>
+                {%endif %}
+
+                <td>{{server.state}}</td>
+                <td>{{server.consensus}}</td>
+                <td>{{server.block_height}}</td>
+                <td>{{server.total_tx}}</td>
+                <td>{{server.unconfirmed_tx}}</td>
+                <td class="loading-td">
+                    <img class="loading-gif" 
+                         id="channel_id_{{loop.index}}"
+                         src="/static/media/loading.gif"/>
+                </td>
+                <td class="loading-td">
+                    <img class="loading-gif" 
+                         id="channel_name_{{loop.index}}"
+                         src="/static/media/loading.gif"/>
+                </td>
+                <td class="loading-td">
+                    <img class="loading-gif" 
+                         id="channel_peers_count_{{loop.index}}"
+                         src="/static/media/loading.gif"/>
+                </td>
+                <td class="loading-td">
+                    <img class="loading-gif" 
+                         id="channel_peers_endpoint_{{loop.index}}"
+                         src="/static/media/loading.gif"/>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+    {% for server in servers %}
+        requestChannelStatus({{loop.index}}, "{{server.url}}");
+    {% endfor %}
+    </script>
+
+{% endblock %}
