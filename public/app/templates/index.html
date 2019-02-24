@@ -52,20 +52,20 @@
 
     <h1>ICONation Citizen Nodes status</h1>
 
-    <table cellspacing='0'>
+    <table cellspacing='0' class="citizen-table">
         <thead>
             <tr>
                 <th>Network Name</th>
                 <th>Network URL Endpoint</th>
-                <th>Online Status</th>
+                <th>Online<br>Status</th>
                 <th>State</th>
                 <th>Consensus</th>
-                <th>Block Height</th>
-                <th>Total Transactions</th>
-                <th>Unconfirmed Transactions</th>
-                <th>Channel ID</th>
-                <th>SCORE Package</th>
-                <th>Peers Count</th>
+                <th>Block<br>Height</th>
+                <th>Total<br>Transactions</th>
+                <th>Unconfirmed<br>Transactions</th>
+                <th>Channel<br>ID</th>
+                <th>SCORE<br>Package</th>
+                <th>Peers<br>Count</th>
                 <th>Peers Endpoint</th>
             </tr>
         </thead>
@@ -74,6 +74,7 @@
             <tr>
                 <td>{{server.name}}</td>
                 <td><a href="{{server.url}}/api/v1/status/peer/">{{server.url}}</a></td>
+                
                 {% if server.online == true %}
                     <td><font color="green"><b>Online</b></font></td>
                 {% else %}
@@ -87,23 +88,25 @@
                 <td>{{server.unconfirmed_tx}}</td>
                 <td class="loading-td">
                     <img class="loading-gif" 
-                         id="channel_id_{{loop.index}}"
-                         src="/static/media/loading.gif"/>
+                        id="channel_id_{{loop.index}}"
+                        src="/static/media/loading.gif"/>
                 </td>
                 <td class="loading-td">
                     <img class="loading-gif" 
-                         id="channel_name_{{loop.index}}"
-                         src="/static/media/loading.gif"/>
+                        id="channel_name_{{loop.index}}"
+                        src="/static/media/loading.gif"/>
                 </td>
                 <td class="loading-td">
                     <img class="loading-gif" 
-                         id="channel_peers_count_{{loop.index}}"
-                         src="/static/media/loading.gif"/>
+                        id="channel_peers_count_{{loop.index}}"
+                        src="/static/media/loading.gif"/>
                 </td>
                 <td class="loading-td">
-                    <img class="loading-gif" 
-                         id="channel_peers_endpoint_{{loop.index}}"
-                         src="/static/media/loading.gif"/>
+                    <div class="citizen-row-peers">
+                        <img class="loading-gif" 
+                            id="channel_peers_endpoint_{{loop.index}}"
+                            src="/static/media/loading.gif"/>
+                    </div>
                 </td>
             </tr>
         {% endfor %}

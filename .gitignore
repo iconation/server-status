@@ -1,3 +1,5 @@
 __pycache__
 *.code-workspace
 deploy.sh
+public/dev_app.py
+*.pyc

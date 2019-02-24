@@ -77,6 +77,12 @@ img.loading-gif{
   padding : 0px;
 }
 
+.citizen-row-peers {
+    max-height : 100px;
+    overflow : scroll;
+    overflow-x : hidden;
+}
+
 /* ============= FOOTER ============= */
 #footer {
     position: relative;
