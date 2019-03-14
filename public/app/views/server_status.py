@@ -12,6 +12,7 @@ def status (status, name):
         'reason' : reason,
         'consensus' : status['consensus'],
         'block_height' : status['block_height'],
+        'ref_block_height' : status['ref_block_height'],
         'total_tx' : status['total_tx'],
         'unconfirmed_tx' : status['unconfirmed_tx'],
         'url' : status['url'],

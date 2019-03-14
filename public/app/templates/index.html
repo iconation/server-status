@@ -58,9 +58,10 @@
                 <th>Network Name</th>
                 <th>Network URL Endpoint</th>
                 <th>Online<br>Status</th>
+                <th>Synchronization<br>with other nodes</th>
+                <th>Block<br>Height</th>
                 <th>State</th>
                 <th>Consensus</th>
-                <th>Block<br>Height</th>
                 <th>Total<br>Transactions</th>
                 <th>Unconfirmed<br>Transactions</th>
                 <th>Channel<br>ID</th>
@@ -81,9 +82,15 @@
                     <td><font color="red"><b>Offline : {{server.reason}}</b></font></td>
                 {%endif %}
 
+                {% if server.ref_block_height == server.block_height %}
+                    <td><font color="green"><b>Synchronized</b></font></td>
+                {% else %}
+                    <td><font color="#f4bf42"><b>Unsynchronized : <br>Reference is block height {{server.ref_block_height}}</b></font></td>
+                {%endif %}
+
+                <td>{{server.block_height}}</td>
                 <td>{{server.state}}</td>
                 <td>{{server.consensus}}</td>
-                <td>{{server.block_height}}</td>
                 <td>{{server.total_tx}}</td>
                 <td>{{server.unconfirmed_tx}}</td>
                 <td class="loading-td">
