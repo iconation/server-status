@@ -3,3 +3,4 @@ __pycache__
 deploy.sh
 public/dev_app.py
 *.pyc
+launch.sh
